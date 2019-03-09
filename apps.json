@@ -4365,12 +4365,19 @@
       "cats": [
         32
       ],
-      "html": "<!-- Start of Async HubSpot",
+      "html": [
+        "<!-- Start of Async HubSpot",
+        "<!-- Start of HubSpot"
+      ],
       "icon": "HubSpot.png",
       "js": {
         "_hsq": "",
         "hubspot": ""
       },
+      "script": [
+        "//js\\.hs-scripts\\.com",
+        "//js\\.hsforms\\.net\\/forms\\/v2.js"
+      ],
       "website": "https://www.hubspot.com"
     },
     "Hugo": {
