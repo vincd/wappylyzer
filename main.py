@@ -20,7 +20,7 @@ def update(dest_file):
 @click.option('-u', '--url', 'url', type=str, required=True)
 def analyze(dest_file, url):
     w = Wappylyzer(dest_file)
-    w.analyze_url(url)
+    w.analyze_from_url(url)
 
 if __name__ == '__main__':
     cli()
