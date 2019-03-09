@@ -1,6 +1,9 @@
+backports.functools-lru-cache==1.5
+beautifulsoup4==4.7.1
 certifi==2018.11.29
 chardet==3.0.4
 Click==7.0
 idna==2.8
 requests==2.21.0
+soupsieve==1.8
 urllib3==1.24.1
