@@ -44,7 +44,7 @@ class Wappylyzer(object):
 
         self.__categories = datas.get('categories', {})
         self.__apps = {}
-        for app_name, app in datas.get('apps', {}).iteritems():
+        for app_name, app in datas.get('apps', {}).items():
             self.__apps[app_name] = self.parse_app(app_name, app)
 
     def request_url(self, url):
@@ -55,7 +55,7 @@ class Wappylyzer(object):
         return app
 
     def iter_apps(self, key):
-        for (app_name, app) in self.__apps.iteritems():
+        for (app_name, app) in self.__apps.items():
             if key in app:
                 patterns = self.parse_patterns(app.get(key))
                 yield (app, patterns)
@@ -66,19 +66,19 @@ class Wappylyzer(object):
 
         parsed = {}
 
-        if type(patterns) in (str, unicode, list):
+        if type(patterns) in (str, list):
             patterns = {
                 'main': as_list(patterns)
             }
 
-        for key, pattern_value in patterns.iteritems():
+        for key, pattern_value in patterns.items():
             parsed[key] = []
 
             for pattern in as_list(pattern_value):
                 attrs = {}
                 pattern = pattern.split('\\;')
 
-                for i in xrange(0, len(pattern)):
+                for i in range(0, len(pattern)):
                     attr = pattern[i]
 
                     if i == 0:
@@ -104,13 +104,13 @@ class Wappylyzer(object):
         return parsed
 
     def add_detected(self, app, pattern, type, value, key=None):
-        print type, '=>', app['name']
+        print(type, '=>', app['name'])
 
         if 'version' in pattern:
             matches = pattern['regex'].match(value)
 
             if matches:
-                print '  - version', matches.groups()
+                print('  - version', matches.groups())
 
     def get_scripts(self, html):
         return filter(bool, map(lambda s: s.attrs.get('src'), html.find_all('script')))
@@ -160,7 +160,7 @@ class Wappylyzer(object):
 
     def analyze_cookies(self, cookies):
         for (app, cookies_patterns) in self.iter_apps('cookies'):
-            for cookie_name, patterns in cookies_patterns.iteritems():
+            for cookie_name, patterns in cookies_patterns.items():
                 if cookie_name in cookies:
                     for pattern in patterns:
                         if pattern['regex'].search(cookies[cookie_name]):
@@ -168,7 +168,7 @@ class Wappylyzer(object):
 
     def analyze_headers(self, headers):
         for (app, headers_patterns) in self.iter_apps('headers'):
-            for header_name, patterns in headers_patterns.iteritems():
+            for header_name, patterns in headers_patterns.items():
                 if header_name in headers:
                     for pattern in patterns:
                         if pattern['regex'].search(headers[header_name]):
@@ -182,7 +182,7 @@ class Wappylyzer(object):
                 meta_content = meta_tag.attrs.get('content')
 
                 if meta_name or meta_property:
-                    for meta_pattern_name, patterns in meta_patterns.iteritems():
+                    for meta_pattern_name, patterns in meta_patterns.items():
                         if meta_pattern_name in (meta_name, meta_property):
                             for pattern in patterns:
                                 if pattern['regex'].search(meta_content):
