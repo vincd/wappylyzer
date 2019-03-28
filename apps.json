@@ -574,7 +574,7 @@
     },
     "Amazon ELB": {
       "cats": [
-        63
+        65
       ],
       "cookies": {
         "AWSELB": ""
@@ -1133,6 +1133,16 @@
       "icon": "BaseHTTP.png",
       "implies": "Python",
       "website": "http://docs.python.org/2/library/basehttpserver.html"
+    },
+    "BigBangShop": {
+      "cats": [
+        6
+      ],
+      "headers": {
+        "X-SERVER": "BIGBANGSHOP"
+      },
+      "icon": "bigbangshop.svg",
+      "website": "https://www.bigbangshop.com.br"
     },
     "BigDump": {
       "cats": [
@@ -1785,6 +1795,24 @@
       },
       "website": "http://ckan.org/"
     },
+    "Clarity": {
+      "cats": [
+        18
+      ],
+      "html": [
+        "<clr-main-container",
+        "<link [^>]*href=\"[^\"]*clr-ui(?:\\.min)?\\.css"
+      ],
+      "js": {
+        "ClarityIcons": ""
+      },
+      "script": "clr-angular(?:\\.umd)?(?:\\.min)?\\.js",
+      "icon": "clarity.svg",
+      "implies": [
+        "Angular"
+      ],
+      "website": "https://clarity.design/"
+    },
     "ClickHeat": {
       "cats": [
         10
@@ -1995,6 +2023,14 @@
         "Comandia": ""
       },
       "website": "http://comandia.com"
+    },
+    "Combeenation": {
+      "cats": [
+        6
+      ],
+      "html": "<iframe[^>]+src=\"[^>]+portal\\.combeenation\\.com",
+      "icon": "Combeenation.png",
+      "website": "https://www.combeenation.com"
     },
     "Commerce Server": {
       "cats": [
@@ -2979,7 +3015,7 @@
     },
     "Envoy": {
       "cats": [
-        22
+        64
       ],
       "icon": "Envoy.png",
       "headers": {
@@ -3097,6 +3133,26 @@
       },
       "script": "ext-base\\.js",
       "website": "https://www.sencha.com"
+    },
+    "F5 BigIP": {
+      "cats": [
+        64
+      ],
+      "headers": {
+        "server": "^big-?ip$"
+      },
+      "cookies": {
+        "F5_ST": "",
+        "MRHSHint": "",
+        "F5_HT_shrinked": "",
+        "F5_fullWT": "",
+        "MRHSequence": "",
+        "MRHSession": "",
+        "LastMRH_Session": "",
+        "TIN": ""
+      },
+      "icon": "F5.png",
+      "website": "https://www.f5.com/products/big-ip-services"
     },
     "FAST ESP": {
       "cats": [
@@ -4411,6 +4467,17 @@
       "script": "cmdatatagutils\\.js",
       "website": "http://ibm.com/software/marketing-solutions/coremetrics"
     },
+    "IBM DataPower": {
+      "cats": [
+        64
+      ],
+      "headers": {
+        "X-Backside-Transport": "",
+        "X-Global-Transaction-ID": ""
+      },
+      "icon": "DataPower.png",
+      "website": "https://www.ibm.com/products/datapower-gateway"
+    },
     "IBM HTTP Server": {
       "cats": [
         22
@@ -5677,6 +5744,18 @@
       "script": "/js/al/common\\.js\\?[0-9_]+",
       "website": "http://liveinternet.ru/rating/"
     },
+    "LocalFocus": {
+      "cats": [
+        61
+      ],
+      "html": "<iframe[^>]+localfocus",
+      "icon": "LocalFocus.png",
+      "implies": [
+        "Angular",
+        "D3"
+      ],
+      "website": "https://www.localfocus.nl/en/"
+    },
     "Locomotive": {
       "cats": [
         1
@@ -5832,7 +5911,7 @@
         "botble_session": ""
       },
       "headers": {
-        "CMS-Version": "^(.+)$\\;version:\\1;confidence:0"
+        "CMS-Version": "^(.+)$\\;version:\\1\\;confidence:0"
       },
       "icon": "mypage-platform.png",
       "implies": "Laravel",
@@ -6916,7 +6995,8 @@
     },
     "Nginx": {
       "cats": [
-        22
+        22,
+        64
       ],
       "headers": {
         "Server": "nginx(?:/([\\d.]+))?\\;version:\\1",
@@ -9003,7 +9083,7 @@
     },
     "Shopfa": {
       "cats": [
-        "6"
+        6
       ],
       "js": {
         "shopfa": ""
@@ -10523,15 +10603,19 @@
       "script": "vs350\\.js",
       "website": "http://www.vpasp.com"
     },
-    "VTEX Enterprise": {
+    "VTEX": {
       "cats": [
         6
       ],
+      "cookies": {
+        "VtexWorkspace": ""
+      },
       "headers": {
+        "Server": "^VTEX IO$",
         "powered": "vtex"
       },
-      "icon": "VTEX Enterprise.png",
-      "website": "http://vtex.com"
+      "icon": "VTEX.svg",
+      "website": "https://vtex.com/"
     },
     "VTEX Integrated Store": {
       "cats": [
@@ -11044,6 +11128,20 @@
         "wp-content/plugins/weglot"
       ],
       "website": "https://www.weglot.com"
+    },
+    "Webzi": {
+      "cats": [
+        1
+      ],
+      "icon": "Webzi.svg",
+      "js": {
+        "Webzi": ""
+      },
+      "meta": {
+        "generator": "^Webzi"
+      },
+      "script": "cdn\\.6th\\.ir",
+      "website": "https://webzi.ir"
     },
     "Wikinggruppen": {
       "cats": [
@@ -11606,6 +11704,23 @@
       "html": "<(?:param|embed|iframe)[^>]+youtube(?:-nocookie)?\\.com/(?:v|embed)",
       "icon": "YouTube.png",
       "website": "http://www.youtube.com"
+    },
+    "iEXExchanger": {
+      "cats": [
+        1
+      ],
+      "implies": [
+        "PHP",
+        "Apache"
+      ],
+      "cookies": {
+        "iexexchanger_session": ""
+      },
+      "meta": {
+        "generator": "iEXExchanger"
+      },
+      "script": "iexexchanger",
+      "website": "https://exchanger.iexbase.com"
     },
     "ZK": {
       "cats": [
@@ -12487,6 +12602,22 @@
       "script": "/particles(?:\\.min)?\\.js",
       "website": "https://vincentgarreau.com/particles.js/"
     },
+    "PhotoShelter": {
+      "cats": [
+        1
+      ],
+      "html": [
+        "<!--\\s+#+ Powered by the PhotoShelter Beam platform",
+        "<link rel=[\"']dns-prefetch[\"'] [^>]+photoshelter.com"
+      ],
+      "implies": [
+        "PHP",
+        "MySQL",
+        "jQuery"
+      ],
+      "icon": "PhotoShelter.png",
+      "website": "https://www.photoshelter.com"
+    },
     "phpAlbum": {
       "cats": [
         7
@@ -12982,6 +13113,20 @@
         "Less"
       ],
       "website": "https://rocketcms.io"
+    },
+    "Zipkin": {
+      "cats": [
+        10
+      ],
+      "headers": {
+        "X-B3-TraceId": "",
+        "X-B3-SpanId": "",
+        "X-B3-ParentSpanId": "",
+        "X-B3-Sampled": "",
+        "X-B3-Flags": ""
+      },
+      "icon": "Zipkin.png",
+      "website": "https://zipkin.io/"
     }
   },
   "categories": {
@@ -13228,6 +13373,14 @@
     "63": {
       "name": "IaaS",
       "priority": 8
+    },
+    "64": {
+      "name": "Reverse Proxy",
+      "priority": 7
+    },
+    "65": {
+      "name": "Load Balancer",
+      "priority": 7
     }
   }
 }
