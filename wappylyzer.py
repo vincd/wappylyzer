@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import sys
 import json
 import requests
 from bs4 import BeautifulSoup
@@ -29,10 +30,11 @@ class Wappylyzer(object):
     def update(clz, dest_file):
         r = requests.get(WAPPALYZER_APPS_URL)
 
-        with open(dest_file, 'w') as fd:
+        with open(dest_file, 'wb') as fd:
             fd.write(r.content)
 
     def __init__(self, apps):
+        self.__detected_apps = []
         self.__apps_file = apps
         self.__apps = {}
         self.__categories = {}
@@ -87,9 +89,8 @@ class Wappylyzer(object):
                         try:
                             attrs['regex'] = re.compile(attr, re.I)
                         except re.error:
-                            attrs['regex'] = re.compile('', re.I)
-                            print('[-] Error with regex %s' % attr)
-
+                            attrs['regex'] = re.compile('$^', re.I)
+                            print('Error with regex %s' % attr, file=sys.stderr)
                     else:
                         attr = attr.split(':')
 
@@ -104,13 +105,17 @@ class Wappylyzer(object):
         return parsed
 
     def add_detected(self, app, pattern, type, value, key=None):
-        print(type, '=>', app['name'])
+        app_name = app['name']
 
         if 'version' in pattern:
             matches = pattern['regex'].match(value)
 
-            if matches:
-                print('  - version', matches.groups())
+            if matches and len(matches.groups()) > 0 and not matches.groups()[0] is None:
+                version = matches.groups()[0]
+                app_name += f' ({version})'
+
+        if not app_name in self.__detected_apps:
+            self.__detected_apps.append(app_name)
 
     def get_scripts(self, html):
         return filter(bool, map(lambda s: s.attrs.get('src'), html.find_all('script')))
@@ -123,6 +128,7 @@ class Wappylyzer(object):
         return self.analyze(res)
 
     def analyze(self, response):
+        self.__detected_apps = []
         url = response.url
         html_doc = response.text
         html = BeautifulSoup(html_doc, 'html.parser')
@@ -138,6 +144,8 @@ class Wappylyzer(object):
         self.analyze_url(url)
         self.analyze_headers(response.headers)
         self.analyze_cookies(response.cookies)
+
+        return self.__detected_apps
 
     def analyze_url(self, url):
         for (app, patterns) in self.iter_apps('url'):

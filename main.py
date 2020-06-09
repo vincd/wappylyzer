@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import json
 import click
 from wappylyzer import Wappylyzer
 
 WAPPYLYZER_VERSION = '0.1'
+
+def pretty_print_json(data):
+	print(json.dumps(data, indent=4, sort_keys=True))
 
 @click.group()
 @click.version_option(WAPPYLYZER_VERSION)
@@ -20,7 +24,8 @@ def update(dest_file):
 @click.option('-u', '--url', 'url', type=str, required=True)
 def analyze(dest_file, url):
     w = Wappylyzer(dest_file)
-    w.analyze_from_url(url)
+    apps = w.analyze_from_url(url)
+    pretty_print_json(apps)
 
 if __name__ == '__main__':
     cli()
