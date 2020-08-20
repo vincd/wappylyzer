@@ -21,6 +21,20 @@ def is_html_document(html):
     return bool(html.find('html'))
 
 
+def compile_regex(regex_string):
+    """
+    Compile a ECMAScript valid regex to a Python regex
+    """
+
+    try:
+        r = re.compile(regex_string.replace('[^]', '.'), re.I | re.DOTALL)
+    except:
+        print('Error with regex %s' % regex_string, file=sys.stderr)
+        r = re.compile('^$', re.I)
+
+    return r
+
+
 class Wappylyzer(object):
     """
     Class that parses the `apps.json` file and analyze an HTTP response.
@@ -85,12 +99,7 @@ class Wappylyzer(object):
 
                     if i == 0:
                         attrs['string'] = attr
-
-                        try:
-                            attrs['regex'] = re.compile(attr, re.I)
-                        except re.error:
-                            attrs['regex'] = re.compile('$^', re.I)
-                            print('Error with regex %s' % attr, file=sys.stderr)
+                        attrs['regex'] = compile_regex(attr)
                     else:
                         attr = attr.split(':')
 
