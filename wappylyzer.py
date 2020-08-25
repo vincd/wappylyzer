@@ -3,6 +3,7 @@
 import re
 import sys
 import json
+import urllib.parse
 import requests
 from bs4 import BeautifulSoup
 
@@ -21,18 +22,23 @@ def is_html_document(html):
     return bool(html.find('html'))
 
 
-def compile_regex(regex_string):
+def compile_regex(regex_string, ignorecase=True):
     """
     Compile a ECMAScript valid regex to a Python regex
     """
 
+    flags = re.IGNORECASE if ignorecase else 0
     try:
-        r = re.compile(regex_string.replace('[^]', '.'), re.I | re.DOTALL)
+        flags |= re.DOTALL
+        r = re.compile(regex_string.replace('[^]', '.'), flags)
     except:
         print('Error with regex %s' % regex_string, file=sys.stderr)
-        r = re.compile('^$', re.I)
+        r = re.compile('^$', flags)
 
     return r
+
+def get_absolute_url(base_url, urls):
+    return list(map(lambda u: urllib.parse.urljoin(base_url, u), urls))
 
 
 class Wappylyzer(object):
@@ -68,6 +74,14 @@ class Wappylyzer(object):
 
     def parse_app(self, app_name, app):
         app['name'] = app_name
+
+        # Force the `implies` field to an array
+        if 'implies' in app:
+            if isinstance(app['implies'], str):
+                app['implies'] = [app['implies']]
+        else:
+            app['implies'] = []
+
         return app
 
     def iter_apps(self, key):
@@ -126,8 +140,12 @@ class Wappylyzer(object):
         if not app_name in self.__detected_apps:
             self.__detected_apps.append(app_name)
 
+        for implie_app in app['implies']:
+            if not implie_app in self.__detected_apps:
+                self.__detected_apps.append(implie_app)
+
     def get_scripts(self, html):
-        return filter(bool, map(lambda s: s.attrs.get('src'), html.find_all('script')))
+        return list(filter(bool, map(lambda s: s.attrs.get('src'), html.find_all('script'))))
 
     def get_meta_tags(self, html):
         return html.find_all('meta')
@@ -148,6 +166,7 @@ class Wappylyzer(object):
 
             self.analyze_html(html_doc)
             self.analyze_scripts(scripts)
+            self.analyze_js(get_absolute_url(response.request.url, scripts))
             self.analyze_meta(meta_tags)
 
         self.analyze_url(url)
@@ -205,5 +224,14 @@ class Wappylyzer(object):
                                 if pattern['regex'].search(meta_content):
                                     self.add_detected(app, pattern, 'meta', meta_content, meta_pattern_name)
 
-    def analyze_js(self, js):
-        raise NotImplementedError('Wappylyzer:analyze_js')
+    def analyze_js(self, scripts):
+        for script in scripts:
+            res = self.request_url(script)
+            js = res.text
+            for (app, patterns) in self.iter_apps('js'):
+                for pattern_name in patterns.keys():
+                    global_variable = compile_regex(r'(window|document)\.' + pattern_name + r' *?=', ignorecase=False)
+                    if global_variable.search(js):
+                        for pattern in patterns[pattern_name]:
+                            if pattern['regex'].search(js):
+                                self.add_detected(app, pattern, 'js', js)

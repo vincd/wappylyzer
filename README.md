@@ -45,6 +45,20 @@ Error with regex (?:<div class="sf-toolbar[^>]+?>[^]+<span class="sf-toolbar-val
 ```
 
 
+## Why there is less results than the official application?
+
+This Python implementation will returns less technologies than the official app
+and here is why :
+
+- The official Wappalyzer is written in JavaScript, so it analyze the global
+variables from the JavaScript files. If you check my implementation, the
+`analyze_js` method tries to look for global variables in Python but it cannot
+find with accurately the patterns in minified code.
+- Some website may returns different page based on your session cookie.
+That why the browser extension may returns more accurate technologies than the
+cli application.
+
+
 ## License
 
 MIT
